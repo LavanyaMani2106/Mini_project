@@ -10,61 +10,62 @@ export { AuthContext };
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // Storage keys
+  const USERS_KEY = 'hakunaMatataUsers';
+  const CURRENT_KEY = 'hakunaCurrentUser';
 
-  // Use a consistent key
-  const STORAGE_KEY = 'hakunaMatataUser';
-
-  // Check for existing user on app start
+  // Load current user from localStorage (client-side auth). If none, no user is logged in.
   useEffect(() => {
-    console.log('🔍 AuthProvider mounted - checking localStorage...');
-    const storedUser = localStorage.getItem(STORAGE_KEY);
-    console.log('📦 Raw data from localStorage:', storedUser);
-    
-    if (storedUser) {
+    console.log('AuthProvider mounted - loading current user from localStorage...');
+    const stored = localStorage.getItem(CURRENT_KEY);
+    if (stored) {
       try {
-        const user = JSON.parse(storedUser);
-        console.log('✅ User parsed successfully:', user);
+        const user = JSON.parse(stored);
         setCurrentUser(user);
-      } catch (error) {
-        console.error('❌ Error parsing user:', error);
-        localStorage.removeItem(STORAGE_KEY);
+        console.log('✅ Loaded current user:', user.email || user.name);
+      } catch (err) {
+        console.warn('Failed to parse current user, clearing key', err);
+        localStorage.removeItem(CURRENT_KEY);
       }
-    } else {
-      console.log('❌ No user found in localStorage for key:', STORAGE_KEY);
     }
     setLoading(false);
   }, []);
 
-  // Register function with better debugging
+  // Register a new user client-side. Stores users under USERS_KEY in localStorage.
+  // Password is stored as a simple base64 string (NOT secure) for demo purposes.
   const register = async (email, password, name) => {
-    console.log('📝 REGISTER called with:', { email, name });
     setLoading(true);
-    
     try {
-      // Create new user
+      if (!email || !password) {
+        setLoading(false);
+        return { success: false, error: 'Email and password are required' };
+      }
+
+      const normalized = email.toLowerCase().trim();
+      const rawUsers = localStorage.getItem(USERS_KEY);
+      const users = rawUsers ? JSON.parse(rawUsers) : [];
+
+      if (users.find(u => u.email === normalized)) {
+        setLoading(false);
+        return { success: false, error: 'User already exists' };
+      }
+
       const newUser = {
         id: Date.now().toString(),
-        email: email.toLowerCase().trim(), // Normalize email
-        name: name.trim(),
+        email: normalized,
+        name: name ? name.trim() : normalized.split('@')[0],
+        password: btoa(password), // simple encoding for demo only
         createdAt: new Date().toISOString()
       };
 
-      console.log('👤 New user object:', newUser);
-      
-      // Store in localStorage
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
-      console.log('💾 Saved to localStorage with key:', STORAGE_KEY);
-      
-      // Verify it was saved
-      const verifySave = localStorage.getItem(STORAGE_KEY);
-      console.log('🔍 Verification - retrieved after save:', verifySave);
-      
-      // Update state
-      setCurrentUser(newUser);
-      console.log('✅ Registration completed - currentUser set to:', newUser);
-      
+      users.push(newUser);
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+      // Set as current user (do not persist current user unless login used remember)
+      setCurrentUser({ id: newUser.id, email: newUser.email, name: newUser.name });
       setLoading(false);
-      return { success: true, user: newUser };
+      console.log('✅ Registered new user:', newUser.email);
+      return { success: true, user: { id: newUser.id, email: newUser.email, name: newUser.name } };
     } catch (error) {
       console.error('❌ Registration error:', error);
       setLoading(false);
@@ -72,49 +73,47 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login function with better debugging
-  const login = async (email, password) => {
-    console.log('🔐 LOGIN called with:', { email, password });
+  // Login client-side: check USERS_KEY for a matching email/password. If remember
+  // is true, persist the current user under CURRENT_KEY so session survives reload.
+  const login = async (email, password, remember = false) => {
     setLoading(true);
-    
     try {
-      const normalizedEmail = email.toLowerCase().trim();
-      
-      // Check localStorage
-      const storedUser = localStorage.getItem(STORAGE_KEY);
-      console.log('📦 Retrieved from localStorage:', storedUser);
-      
-      if (!storedUser) {
-        console.log('❌ No user data found in localStorage for key:', STORAGE_KEY);
+      const normalized = email.toLowerCase().trim();
+      const rawUsers = localStorage.getItem(USERS_KEY);
+      const users = rawUsers ? JSON.parse(rawUsers) : [];
+
+      const found = users.find(u => u.email === normalized);
+      if (!found) {
         setLoading(false);
         return { success: false, error: 'No account found. Please register first.' };
       }
 
-      const user = JSON.parse(storedUser);
-      console.log('👤 Parsed user:', user);
-      console.log('🔍 Comparing emails - Stored:', user.email, 'Input:', normalizedEmail);
-      
-      if (user.email === normalizedEmail) {
-        console.log('✅ Email matches - login successful');
-        setCurrentUser(user);
-        setLoading(false);
-        return { success: true, user };
-      } else {
-        console.log('❌ Email mismatch');
+      if (found.password !== btoa(password)) {
         setLoading(false);
         return { success: false, error: 'Invalid email or password' };
       }
+
+      const user = { id: found.id, email: found.email, name: found.name };
+      setCurrentUser(user);
+
+      if (remember) {
+        localStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+      }
+
+      setLoading(false);
+      console.log('✅ Login successful:', user.email);
+      return { success: true, user };
     } catch (error) {
-      console.error('💥 Login error:', error);
+      console.error('Login error:', error);
       setLoading(false);
       return { success: false, error: 'Login failed. Please try again.' };
     }
   };
 
   const logout = () => {
-    console.log('🚪 Logging out user');
+    console.log('Logging out user');
     setCurrentUser(null);
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(CURRENT_KEY);
   };
 
   const value = {

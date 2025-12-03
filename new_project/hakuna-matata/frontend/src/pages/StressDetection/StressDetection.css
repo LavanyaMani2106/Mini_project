@@ -1,0 +1,183 @@
+/* Advanced Animations & Professional Styles */
+
+/* 1. Scanning Animation for Camera */
+@keyframes scan-laser {
+    0% {
+        top: 0%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+
+    90% {
+        opacity: 1;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+.scan-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #10b981, transparent);
+    animation: scan-laser 3s ease-in-out infinite;
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* 2. Heartbeat Animation for Chart */
+@keyframes heartbeat-line {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.heartbeat-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: heartbeat-line 10s linear infinite;
+}
+
+/* 3. Refined Glassmorphism */
+.glass-professional {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.05),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.glass-dark {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 4. Bento Box Grid Utilities */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.bento-item {
+    @apply rounded-3xl overflow-hidden transition-all duration-500;
+}
+
+.bento-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* 5. Dynamic Glow Effects */
+.glow-text {
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.glow-border-emerald {
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.glow-border-amber {
+    box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.glow-border-rose {
+    box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.2), 0 0 20px rgba(244, 63, 94, 0.2);
+}
+
+/* 6. Floating Elements */
+@keyframes float-slow {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes float-medium {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.float-medium {
+    animation: float-medium 4s ease-in-out infinite;
+}
+
+/* 7. Shimmer Effect */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.shimmer-bg {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+}
+
+/* 8. Typography Enhancements */
+.font-display {
+    font-family: 'Playfair Display', serif;
+}
+
+.text-gradient-gold {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 9. Custom Scrollbar for Tips */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

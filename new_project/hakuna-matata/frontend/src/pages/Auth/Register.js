@@ -27,7 +27,7 @@ const Register = () => {
     setError('');
     setLoading(true);
 
-    console.log('📝 Register form submitted:', formData);
+    console.log('Register form submitted:', formData);
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
@@ -45,7 +45,7 @@ const Register = () => {
     try {
       const result = await register(formData.email, formData.password, formData.name);
       
-      console.log('📨 Register result:', result);
+      console.log('Register result:', result);
       
       if (result.success) {
         console.log('✅ Registration successful, navigating to dashboard');
@@ -55,7 +55,7 @@ const Register = () => {
         setError(result.error || 'Failed to create account. Please try again.');
       }
     } catch (error) {
-      console.error('💥 Register catch error:', error);
+      console.error('Register catch error:', error);
       setError('Failed to create account. Please try again.');
     }
     
@@ -141,7 +141,7 @@ const Register = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? '🙈' : '👁️'}
+                {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
           </div>

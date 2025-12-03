@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Square, Volume2 } from 'lucide-react';
+import { Play, Pause, Square, Volume2, Activity, Music, Coffee, Gamepad, Footprints, Droplet, Edit2 } from 'lucide-react';
 
 const Relax = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -12,7 +12,7 @@ const Relax = () => {
       id: 'breathing',
       title: 'Breathing Exercises',
       description: 'Guided breathing techniques to calm your mind',
-      icon: '🌬️',
+      icon: <Activity className="h-6 w-6 text-white" />,
       color: 'bg-blue-500',
       exercises: [
         { name: '4-7-8 Breathing', duration: '5 min', description: 'Inhale for 4, hold for 7, exhale for 8' },
@@ -24,7 +24,7 @@ const Relax = () => {
       id: 'music',
       title: 'Music Therapy',
       description: 'Calming sounds and music for relaxation',
-      icon: '🎵',
+      icon: <Music className="h-6 w-6 text-white" />,
       color: 'bg-purple-500',
       exercises: [
         { name: 'Nature Sounds', duration: '10 min', description: 'Forest and water sounds' },
@@ -36,7 +36,7 @@ const Relax = () => {
       id: 'meditation',
       title: 'Meditation',
       description: 'Guided meditation sessions',
-      icon: '🧘',
+      icon: <Activity className="h-6 w-6 text-white" />,
       color: 'bg-green-500',
       exercises: [
         { name: 'Mindfulness', duration: '10 min', description: 'Present moment awareness' },
@@ -48,7 +48,7 @@ const Relax = () => {
       id: 'games',
       title: 'Relaxation Games',
       description: 'Calming games to reduce stress',
-      icon: '🎮',
+      icon: <Activity className="h-6 w-6 text-white" />,
       color: 'bg-pink-500',
       exercises: [
         { name: 'Memory Game', duration: '5-10 min', description: 'Match pairs to relax your mind' },
@@ -93,7 +93,7 @@ const Relax = () => {
               className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => setActiveModule(module)}
             >
-              <div className={`${module.color} w-12 h-12 rounded-lg flex items-center justify-center text-white text-2xl mb-4`}>
+                    <div className={`${module.color} w-12 h-12 rounded-lg flex items-center justify-center text-white text-2xl mb-4`}> 
                 {module.icon}
               </div>
               <h3 className="text-xl font-semibold mb-2">{module.title}</h3>
@@ -197,7 +197,7 @@ const Relax = () => {
                   <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 transition-colors cursor-pointer" onClick={() => setSelectedGame(exercise.name)}>
                     <div className="flex items-center space-x-3 mb-3">
                       <div className="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
-                        🎮
+                        <Gamepad className="h-6 w-6" />
                       </div>
                       <div>
                         <h4 className="font-semibold">{exercise.name}</h4>
@@ -237,22 +237,22 @@ const Relax = () => {
             <h3 className="text-xl font-semibold mb-4">Quick Relaxation Tips</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl mb-2">💆</div>
+                <div className="text-2xl mb-2"><Activity className="h-6 w-6" /></div>
                 <h4 className="font-semibold mb-1">Deep Breathing</h4>
                 <p className="text-sm text-gray-600">Take 5 deep breaths to instantly calm yourself</p>
               </div>
               <div className="p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl mb-2">🚶</div>
+                  <div className="text-2xl mb-2"><Footprints className="h-6 w-6" /></div>
                 <h4 className="font-semibold mb-1">Short Walk</h4>
                 <p className="text-sm text-gray-600">A 5-minute walk can clear your mind</p>
               </div>
               <div className="p-4 bg-purple-50 rounded-lg">
-                <div className="text-2xl mb-2">💧</div>
+                <div className="text-2xl mb-2"><Droplet className="h-6 w-6" /></div>
                 <h4 className="font-semibold mb-1">Drink Water</h4>
                 <p className="text-sm text-gray-600">Hydration helps reduce stress</p>
               </div>
               <div className="p-4 bg-yellow-50 rounded-lg">
-                <div className="text-2xl mb-2">📝</div>
+                <div className="text-2xl mb-2"><Edit2 className="h-6 w-6" /></div>
                 <h4 className="font-semibold mb-1">Quick Journal</h4>
                 <p className="text-sm text-gray-600">Write down what's bothering you</p>
               </div>

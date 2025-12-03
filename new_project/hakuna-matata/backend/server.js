@@ -1,21 +1,14 @@
+
 require('dotenv').config();
 const app = require('./app');
-const mongoose = require('mongoose');
+const db = require('./db'); // Initialize database
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/hakuna-matata';
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('Connected to MongoDB');
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-})
-.catch((error) => {
-  console.log('Database connection failed:', error);
+// Database is now SQLite - automatically initialized via db.js
+// User authentication and stress session data are stored persistently
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log('Database: SQLite (hakuna_matata.db)');
 });
-MONGO_URI=mongodb+srv://lavanyaklavanya259_db_user:<sxZj1UEUScJqipRU>@cluster.btkvyhz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster

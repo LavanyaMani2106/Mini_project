@@ -1,0 +1,90 @@
+# Dependencies
+node_modules/
+node_modules_trash_%RANDOM%/
+
+# Production builds
+/frontend/build
+/backend/dist
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+/coverage
+
+# Misc
+.cache/
+tmp/
+temp/
+*.tmp
+tmp_test.jpg
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/python_infer/
+
+# Model files (large files)
+frontend/public/tfjs_model/
+frontend/public/tfjs_model_mobilenet/
+
+# Backup files
+*_backup.js
+Header_backup.js
+StressDetection_backup.js
+
+# Storybook
+.storybook/
+storybook-static/
+
+# Training data and results
+results/
+scripts/
+*.csv
+*.py
+
+# Vercel
+.vercel
+vercel.json
+
+# Test files
+production_test.js
+frontend/public/TFJS_MODEL_README.md
+frontend/scripts/
+
+# Specific routes (if these are temporary)
+backend/routes/sessions.js
+backend/routes/stress-data.js
+
+# Data files
+backend/data/

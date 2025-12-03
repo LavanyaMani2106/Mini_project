@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Music, Play, Pause, SkipBack, SkipForward, Volume2, Coffee, TreePine, Leaf, Activity } from 'lucide-react';
 
-const Music = () => {
+const MusicPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -11,31 +12,31 @@ const Music = () => {
   const tracks = [
     { 
       name: "Calming Waves", 
-      emoji: "🌊", 
+      emoji: <Music className="h-8 w-8" />, 
       duration: "3:45",
       description: "Gentle ocean waves for deep relaxation"
     },
     { 
       name: "Forest Meditation", 
-      emoji: "🌲", 
+      emoji: <TreePine className="h-8 w-8" />, 
       duration: "4:20",
       description: "Soothing forest sounds with bird melodies"
     },
     { 
       name: "Peaceful Piano", 
-      emoji: "🎹", 
+      emoji: <Music className="h-8 w-8" />, 
       duration: "5:15",
       description: "Soft piano melodies for stress relief"
     },
     { 
       name: "Zen Garden", 
-      emoji: "🎋", 
+      emoji: <Leaf className="h-8 w-8" />, 
       duration: "6:30",
       description: "Japanese garden ambiance with water features"
     },
     { 
       name: "Mountain Stream", 
-      emoji: "⛰️", 
+      emoji: <Activity className="h-8 w-8" />, 
       duration: "4:50",
       description: "Flowing water and mountain echoes"
     }
@@ -125,8 +126,9 @@ const Music = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Relaxing Music</h1>
           <p className="text-gray-600">Soothing sounds to reduce stress and anxiety</p>
           <div className="mt-2 p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-700">
-              🎵 <strong>Simulation Mode:</strong> Visual music player experience
+            <p className="text-sm text-blue-700 flex items-center gap-2">
+              <svg className="h-5 w-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 19V6l12-3v13" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <strong>Simulation Mode:</strong> Visual music player experience
             </p>
           </div>
         </div>
@@ -156,36 +158,39 @@ const Music = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex justify-center items-center space-x-8">
+            <div className="flex justify-center items-center space-x-8">
             <button 
               onClick={prevTrack}
-              className="p-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-2xl disabled:opacity-50"
+              className="p-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors disabled:opacity-50 btn-ghost"
               title="Previous Track"
+              aria-label="Previous track"
             >
-              ⏮️
+              <SkipBack className="h-5 w-5" />
             </button>
             
             <button 
               onClick={togglePlay}
-              className="p-6 rounded-full bg-primary text-white hover:bg-primary/90 transition-colors text-2xl shadow-lg"
+              className="p-6 rounded-full bg-primary text-white hover:bg-primary/90 transition-colors shadow-lg"
               title={isPlaying ? "Pause" : "Play"}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
             >
-              {isPlaying ? '⏸️' : '▶️'}
+              {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
             </button>
             
             <button 
               onClick={nextTrack}
-              className="p-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-2xl disabled:opacity-50"
+              className="p-4 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors disabled:opacity-50 btn-ghost"
               title="Next Track"
+              aria-label="Next track"
             >
-              ⏭️
+              <SkipForward className="h-5 w-5" />
             </button>
           </div>
 
           {/* Status */}
           <div className="text-center mt-4">
             <p className={`text-sm font-medium ${isPlaying ? 'text-green-600' : 'text-gray-500'}`}>
-              {isPlaying ? '🎵 Now Playing - Relax and Breathe' : '⏸️ Paused - Click play to continue'}
+              {isPlaying ? 'Now Playing - Relax and Breathe' : 'Paused - Click play to continue'}
             </p>
           </div>
         </div>
@@ -210,11 +215,11 @@ const Music = () => {
                   <div className="text-sm text-gray-500">{track.description}</div>
                   <div className="text-xs text-gray-400 mt-1">{track.duration}</div>
                 </div>
-                {index === currentTrack && (
+                    {index === currentTrack && (
                   <div className={`px-3 py-1 rounded-full text-xs font-medium ${
                     isPlaying ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
                   }`}>
-                    {isPlaying ? '▶️ Playing' : '⏸️ Selected'}
+                    {isPlaying ? 'Playing' : 'Selected'}
                   </div>
                 )}
               </div>
@@ -288,4 +293,4 @@ const Music = () => {
   );
 };
 
-export default Music;
+export default MusicPage;

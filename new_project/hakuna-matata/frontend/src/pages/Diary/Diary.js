@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Calendar, Lock, BookOpen, Smile, Frown, Meh } from 'lucide-react';
+import { Plus, Search, Calendar, Lock, BookOpen, Smile, Frown, Meh, Trash2, X } from 'lucide-react';
 
 const Diary = () => {
   const { currentUser } = useAuth();
@@ -19,13 +19,13 @@ const Diary = () => {
   const [moodFilter, setMoodFilter] = useState('all');
 
   const moods = [
-    { value: 'happy', label: 'Happy', icon: <Smile className="h-5 w-5" />, color: 'text-green-600', emoji: '😊' },
-    { value: 'neutral', label: 'Neutral', icon: <Meh className="h-5 w-5" />, color: 'text-yellow-600', emoji: '😐' },
-    { value: 'sad', label: 'Sad', icon: <Frown className="h-5 w-5" />, color: 'text-red-600', emoji: '😢' },
-    { value: 'angry', label: 'Angry', icon: '😠', color: 'text-orange-600', emoji: '😠' },
-    { value: 'anxious', label: 'Anxious', icon: '😰', color: 'text-purple-600', emoji: '😰' },
-    { value: 'excited', label: 'Excited', icon: '😄', color: 'text-blue-600', emoji: '😄' },
-    { value: 'tired', label: 'Tired', icon: '😴', color: 'text-indigo-600', emoji: '😴' }
+    { value: 'happy', label: 'Happy', icon: <Smile className="h-5 w-5" />, color: 'text-green-600' },
+    { value: 'neutral', label: 'Neutral', icon: <Meh className="h-5 w-5" />, color: 'text-yellow-600' },
+    { value: 'sad', label: 'Sad', icon: <Frown className="h-5 w-5" />, color: 'text-red-600' },
+    { value: 'angry', label: 'Angry', icon: <Frown className="h-5 w-5" />, color: 'text-orange-600' },
+    { value: 'anxious', label: 'Anxious', icon: <Meh className="h-5 w-5" />, color: 'text-purple-600' },
+    { value: 'excited', label: 'Excited', icon: <Smile className="h-5 w-5" />, color: 'text-blue-600' },
+    { value: 'tired', label: 'Tired', icon: <Meh className="h-5 w-5" />, color: 'text-indigo-600' }
   ];
 
   // Load entries from localStorage on component mount
@@ -78,7 +78,7 @@ const Diary = () => {
 
   const getMoodEmoji = (moodValue) => {
     const mood = moods.find(m => m.value === moodValue);
-    return mood ? mood.emoji : '😐';
+    return mood ? mood.label : 'Neutral';
   };
 
   const formatDate = (dateString) => {
@@ -306,15 +306,16 @@ const Diary = () => {
                               </div>
                             </div>
                             <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteEntry(entry.id);
-                              }}
-                              className="text-gray-400 hover:text-red-500 transition-colors p-1 ml-2"
-                              title="Delete entry"
-                            >
-                              🗑️
-                            </button>
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteEntry(entry.id);
+                                }}
+                                className="text-gray-400 hover:text-red-500 transition-colors p-1 ml-2 btn-ghost"
+                                title="Delete entry"
+                                aria-label="Delete entry"
+                              >
+                                <Trash2 className="h-5 w-5" />
+                              </button>
                           </div>
                           
                           <p className="text-gray-700 mb-4 line-clamp-2">{entry.content}</p>
@@ -344,13 +345,14 @@ const Diary = () => {
                       <h3 className="text-lg font-semibold">Entry Preview</h3>
                       <button
                         onClick={() => setSelectedEntry(null)}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                        className="text-gray-400 hover:text-gray-600 transition-colors btn-ghost"
+                        aria-label="Close preview"
                       >
-                        ✕
+                        <X className="h-5 w-5" />
                       </button>
                     </div>
                     <div className="flex items-center mb-4 space-x-3">
-                      <span className="text-3xl">{getMoodEmoji(selectedEntry.mood)}</span>
+                      <span className="text-3xl">{getMoodIcon(selectedEntry.mood)}</span>
                       <div>
                         <h4 className="font-semibold text-gray-900">{selectedEntry.title}</h4>
                         <p className="text-sm text-gray-500">{formatDate(selectedEntry.createdAt || selectedEntry.date)}</p>

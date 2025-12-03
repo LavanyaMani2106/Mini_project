@@ -16,7 +16,7 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  console.log('🔑 Login component rendered - useAuth hook loaded:', !!login);
+  console.log('Login component rendered - useAuth hook loaded:', !!login);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -61,9 +61,9 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      console.log('🚀 Attempting login with:', formData.email);
-      const result = await login(formData.email, formData.password);
-      console.log('📬 Login result:', result);
+      console.log('Attempting login with:', formData.email);
+  const result = await login(formData.email, formData.password, formData.rememberMe);
+      console.log('Login result:', result);
       
       if (result.success) {
         console.log('✅ Login successful, navigating to dashboard');
@@ -73,7 +73,7 @@ const Login = () => {
         setErrors({ submit: result.error });
       }
     } catch (error) {
-      console.error('💥 Login error caught:', error);
+      console.error('Login error caught:', error);
       setErrors({ submit: 'Login failed. Please try again.' });
     } finally {
       setIsLoading(false);
@@ -83,7 +83,7 @@ const Login = () => {
   const handleDemoLogin = async () => {
     setIsLoading(true);
     try {
-      const result = await login('demo@example.com', 'password123');
+      const result = await login('demo@example.com', 'password123', true);
       
       if (result.success) {
         navigate('/dashboard');

@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useAuth();
 
-  console.log('🛡️ ProtectedRoute - currentUser:', currentUser, 'loading:', loading);
+  console.log('ProtectedRoute - currentUser:', currentUser, 'loading:', loading);
 
   if (loading) {
     return (
